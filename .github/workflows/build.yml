@@ -19,27 +19,11 @@ jobs:
         run: neu update
       - name: Build Neutralino project
         run: neu build --embed-resources
-        
-      - name: Get release version
-        id: get_version
-        run: |
-          echo "version=$(cat neutralino.config.json | grep 'version' | head -1 | awk -F '"' '{print $4}')" >> $GITHUB_OUTPUT
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compress build output
+        run: zip -r my-neu-app.zip dist/my-neu-app/
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          release_name: Release v${{ steps.get_version.outputs.version }}
-          draft: false
-          prerelease: false
-      - name: Upload release assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/my-neu-app/
-          asset_name: my-neu-app
-          asset_content_type: application/zip
+          name: my-neu-app
+          path: my-neu-app.zip
