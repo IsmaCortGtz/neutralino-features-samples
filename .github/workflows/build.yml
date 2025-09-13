@@ -1,0 +1,45 @@
+name: Build Neutralino App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install Neutralino CLI
+        run: npm install -g IsmaCortGtz/neutralinojs-cli#feature/postject-build
+      - name: Update Neutralino project
+        run: neu update
+      - name: Build Neutralino project
+        run: neu build --embed-resources
+        
+      - name: Get release version
+        id: get_version
+        run: |
+          echo "version=$(cat neutralino.config.json | grep 'version' | head -1 | awk -F '"' '{print $4}')" >> $GITHUB_OUTPUT
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release v${{ steps.get_version.outputs.version }}
+          draft: false
+          prerelease: false
+      - name: Upload release assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/my-neu-app/
+          asset_name: my-neu-app
+          asset_content_type: application/zip
