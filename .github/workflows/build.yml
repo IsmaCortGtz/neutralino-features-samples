@@ -21,7 +21,7 @@ jobs:
         run: neu build --embed-resources
 
       - name: Compress build output
-        run: zip -r my-neu-app.zip dist/my-neu-app/
+        run: cd dist/my-neu-app && zip -r ../../my-neu-app.zip ./*
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
