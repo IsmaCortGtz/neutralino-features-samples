@@ -1,15 +1,7 @@
-# neutralinojs-minimal
+# NeutralinoJS Features Samples
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/getting-started/using-frontend-libraries).
+All the features of Neutralino where I am working will be available in this repository. Usually they will be used to open a PR and showcase a sample.
 
-## Contributors
+## Table of Contents
 
-[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
-
-## License
-
-[MIT](LICENSE)
-
-## Icon credits
-
-- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)
+1. [`neutralinojs-portable-sample`](https://github.com/IsmaCortGtz/neutralino-features-samples/tree/feature/portable): A sample to showcase the feature for embedding the `resource.neu` file using `postject`.
